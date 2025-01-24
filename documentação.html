@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentação do Projeto: Comunicação Segura entre VMs</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        nav {
+            background-color: #333;
+            color: white;
+            padding: 10px;
+            position: sticky;
+            top: 0;
+        }
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+        }
+        nav ul li {
+            margin: 0 15px;
+        }
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1, h2, h3 {
+            color: #4CAF50;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-left: 4px solid #4CAF50;
+            overflow-x: auto;
+        }
+        code {
+            font-family: Consolas, monospace;
+            color: #d63384;
+        }
+        .note {
+            background-color: #e7f3fe;
+            border-left: 4px solid #2196F3;
+            padding: 10px;
+            margin: 20px 0;
+        }
+        footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #333;
+            color: white;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Documentação do Projeto: Comunicação Segura entre VMs</h1>
+    </header>
+    <nav>
+        <ul>
+            <li><a href="#introducao">Introdução</a></li>
+            <li><a href="#configuracao">Configuração</a></li>
+            <li><a href="#cenarios">Cenários</a></li>
+            <li><a href="#conceitos">Conceitos Técnicos</a></li>
+            <li><a href="#conclusao">Conclusão</a></li>
+        </ul>
+    </nav>
+    <div class="container">
+        <section id="introducao">
+            <h2>1. Introdução</h2>
+            <p>Este projeto tem como objetivo demonstrar a implementação de técnicas de segurança em uma comunicação entre duas máquinas virtuais (VMs). Foram abordados os seguintes cenários:</p>
+            <ul>
+                <li>Comunicação usando criptografia simétrica (AES).</li>
+                <li>Comunicação usando criptografia assimétrica (RSA).</li>
+                <li>Troca de chaves AES usando RSA e comunicação com AES.</li>
+                <li>Comunicação usando funções de hash (SHA-256) para integridade.</li>
+                <li>Comunicação com confidencialidade (AES) e integridade (SHA-256).</li>
+            </ul>
+        </section>
+
+        <section id="configuracao">
+            <h2>2. Configuração do Ambiente</h2>
+            <h3>Requisitos</h3>
+            <ul>
+                <li><strong>VirtualBox</strong>: Para criar e gerenciar as máquinas virtuais.</li>
+                <li><strong>Sistema Operacional</strong>: Ubuntu (ou outra distribuição Linux) instalado nas VMs.</li>
+                <li><strong>Bibliotecas Python</strong>:
+                    <ul>
+                        <li><code>pycryptodome</code>: Para criptografia e funções de hash.</li>
+                        <li><code>socket</code>: Para comunicação em rede.</li>
+                        <li><code>threading</code>: Para envio e recebimento simultâneo de mensagens.</li>
+                    </ul>
+                </li>
+            </ul>
+            <h3>Configuração das VMs</h3>
+            <ol>
+                <li>Crie duas VMs no VirtualBox.</li>
+                <li>Configure as VMs em modo <strong>bridge</strong> para que possam se comunicar na mesma rede.</li>
+                <li>Defina IPs fixos para as VMs usando o Netplan:
+                    <pre><code>sudo netplan apply</code></pre>
+                </li>
+                <li>Instale as dependências Python nas VMs:
+                    <pre><code>sudo apt update
+sudo apt install python3 python3-pip
+pip3 install pycryptodome</code></pre>
+                </li>
+            </ol>
+        </section>
+
+        <section id="cenarios">
+            <h2>3. Cenários Implementados</h2>
+            <h3>Cenário 1: Comunicação com Criptografia Simétrica (AES)</h3>
+            <p><strong>Objetivo</strong>: Demonstrar a comunicação segura usando criptografia simétrica com o algoritmo AES.</p>
+            <p><strong>Funcionamento</strong>:</p>
+            <ul>
+                <li>O servidor e o cliente compartilham a mesma chave AES (<code>KEY</code>) e vetor de inicialização (<code>IV</code>).</li>
+                <li>As mensagens são criptografadas e descriptografadas usando AES no modo CBC.</li>
+            </ul>
+            <p><strong>Códigos</strong>:</p>
+            <ul>
+                <li><strong>Servidor (VM1)</strong>: <a href="#passo-1-codigo-da-vm1">Link para o código</a></li>
+                <li><strong>Cliente (VM2)</strong>: <a href="#passo-1-codigo-da-vm2">Link para o código</a></li>
+            </ul>
+
+            <h3>Cenário 2: Comunicação com Criptografia Assimétrica (RSA)</h3>
+            <p><strong>Objetivo</strong>: Demonstrar a comunicação segura usando criptografia assimétrica com o algoritmo RSA.</p>
+            <p><strong>Funcionamento</strong>:</p>
+            <ul>
+                <li>O servidor e o cliente geram seus próprios pares de chaves RSA (pública e privada).</li>
+                <li>As mensagens são criptografadas com a chave pública do destinatário e descriptografadas com a chave privada do receptor.</li>
+            </ul>
+            <p><strong>Códigos</strong>:</p>
+            <ul>
+                <li><strong>Servidor (VM1)</strong>: <a href="#passo-2-codigo-da-vm1">Link para o código</a></li>
+                <li><strong>Cliente (VM2)</strong>: <a href="#passo-2-codigo-da-vm2">Link para o código</a></li>
+            </ul>
+
+            <!-- Repetir para os outros cenários -->
+        </section>
+
+        <section id="conceitos">
+            <h2>4. Explicação dos Conceitos Técnicos</h2>
+            <h3>Socket</h3>
+            <p><strong>O que é?</strong>: Um socket é um ponto de comunicação entre dois processos em uma rede. Ele permite que programas se comuniquem, seja na mesma máquina ou em máquinas diferentes.</p>
+            <p><strong>Uso no Projeto</strong>: Usamos sockets para estabelecer uma conexão TCP entre o servidor e o cliente.</p>
+
+            <h3>Threading</h3>
+            <p><strong>O que é?</strong>: Threading é uma técnica que permite a execução simultânea de múltiplas tarefas em um programa.</p>
+            <p><strong>Uso no Projeto</strong>: Usamos threads para permitir que o servidor envie e receba mensagens simultaneamente.</p>
+
+            <!-- Repetir para os outros conceitos -->
+        </section>
+
+        <section id="conclusao">
+            <h2>5. Conclusão</h2>
+            <p>Este projeto demonstra como técnicas de criptografia e funções de hash podem ser usadas para garantir a segurança e a integridade na comunicação entre sistemas. Cada cenário aborda um aspecto específico da segurança, culminando em uma solução completa que combina confidencialidade e integridade.</p>
+        </section>
+    </div>
+    <footer>
+        <p>Documentação criada por [Seu Nome]. Referências: <a href="https://pycryptodome.readthedocs.io" target="_blank">PyCryptodome</a>, <a href="https://www.tutorialspoint.com" target="_blank">TutorialsPoint</a>.</p>
+    </footer>
+</body>
+</html>
